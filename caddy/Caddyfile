@@ -1,0 +1,15 @@
+http://localhost:3001 {
+	root * /var/www/html
+
+	php_fastcgi php-service-1:9000
+
+	file_server
+}
+
+http://localhost:3002 {
+	root * /var/www/html
+
+	php_fastcgi php-service-2:9000
+
+	file_server
+}

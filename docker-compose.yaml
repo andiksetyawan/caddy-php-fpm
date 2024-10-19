@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  php-service-1:
+    build:
+      context: ./php-service-1
+    volumes:
+      - ./php-service-1:/var/www/html
+    ports:
+      - "9001:9000"
+
+  php-service-2:
+    build:
+      context: ./php-service-2
+    volumes:
+      - ./php-service-2:/var/www/html   
+    ports:
+      - "9002:9000"    
+
+  caddy:
+    image: caddy:2 
+    ports:
+      - "3001:3001" #service 1
+      - "3002:3002" #service 2
+    depends_on:
+      - php-service-1
+      - php-service-2
+    volumes:
+      - ./php-service-1:/var/www/html 
+      - ./php-service-2:/var/www/html  # PHP app files
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile  # Caddyfile configuration
